@@ -1,10 +1,12 @@
 import dotenv from "dotenv";
 
 dotenv.config({
-  path: "../.env"
+  path: "../.env",
 });
-async function GenerateContent(promt) {
-  let options = {
+
+// Load Gemini response for a given prompt
+async function geminiService(prompt) {
+  const options = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -15,7 +17,7 @@ async function GenerateContent(promt) {
         {
           parts: [
             {
-              text: promt,
+              text: prompt,
             },
           ],
         },
@@ -28,12 +30,15 @@ async function GenerateContent(promt) {
       "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
       options,
     );
+    if (!response.ok) {
+      throw new Error(`Gemini API Error: ${response.status}`);
+    }
     const data = await response.json();
-    let newData = data.candidates[0].content.parts[0].text;
-    return newData;
+
+    return data.candidates?.[0]?.content?.parts?.[0]?.text;
   } catch (error) {
-    console.error("Api Error:", error);
+    console.error("API Error:", error);
   }
 }
 
-export { GenerateContent };
+export default geminiService;

@@ -1,10 +1,12 @@
 import dotenv from "dotenv";
+
 dotenv.config({
   path: "../.env",
 });
-console.log(process.env.GEMINI_API_KEY);
+
+// Generate embedding vector for a piece of text
 async function getEmbedding(text) {
-  let options = {
+  const options = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -12,26 +14,34 @@ async function getEmbedding(text) {
     },
     body: JSON.stringify({
       taskType: "SEMANTIC_SIMILARITY",
-
       content: {
         parts: [
           {
-            text: text,
+            text,
           },
         ],
       },
     }),
   };
+
   try {
     const response = await fetch(
       "https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent",
-      options,
+      options
     );
+
+    if (!response.ok) {
+      throw new Error(`Gemini API Error: ${response.status}`);
+    }
+
     const data = await response.json();
-    const embedding = data.embedding.values;
-    return embedding;
+
+    // Useful while debugging, remove later if not needed
+    console.log(JSON.stringify(data, null, 2));
+
+    return data.embedding.values;
   } catch (error) {
-    console.error("Api Error:", error);
+    console.error("API Error:", error);
   }
 }
 
