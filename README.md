@@ -1,32 +1,37 @@
-# <b>MatrixAi<b/>
-<hr>
-<h3>Current Status<h3/>
+# MatrixAI
 
-<ul>
-  <li>
-Store documents as vector embeddings 
-  </li>
-  <li>
-    
-Generate embeddings for user queries 
-  </li>
-  <li>
-    
-Retrieve the most relevant document chunks
-  </li>
-  <li>
-    
-Build context from retrieved information
-  </li>
-  <li>
-    
-Generate AI responses using Gemini
-  </li>
-  <li>
-    
-Maintain conversation history through threads
-  </li>
-</ul>   
-  <br>
+AI-powered chat application built with the MERN stack and RAG.
 
-add comments and clean code.
+## Current Progress
+
+* React frontend connected to Node.js/Express backend
+* Create and manage chat threads
+* Store conversation history
+* Gemini API integration
+* Generate embeddings for documents
+* Generate embeddings for user queries
+* Retrieve relevant document chunks
+* Build context from retrieved information
+* Generate AI responses using retrieved context
+
+## Tech Stack
+
+* React.js
+* Node.js
+* Express.js
+* MongoDB
+* Gemini API
+
+   
+
+## Status
+
+🚧 Currently under development.
+
+### Working On
+
+* Improving chat experience
+* Optimizing retrieval accuracy
+* Better response handling
+* Authentication system
+* RAG (Retrieval-Augmented Generation)
