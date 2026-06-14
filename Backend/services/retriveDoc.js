@@ -4,24 +4,18 @@ import getEmbedding from "./getEmbedding.js";
 import Rag from "../models/RagDoc.js";
 import cosineSimilarity from "../utils/cosineSimilarity.js";
 
-async function retriveDoc(query = "computer can store") {
-  console.log("Start retrieve");
+async function retriveDoc(query = "what is rohit secret code") {
+  try {
 
-  console.log("Before get embedding");
   const queryEmbedding = await getEmbedding(query);
-  console.log("After get embedding");
-
-  console.log("Before get all docs");
-  console.log("Ready State:", mongoose.connection.readyState);
-
-  const docs = await Rag.find();
-
-  console.log("After get all docs");
-
-  // Find the most relevant chunks using cosine similarity
-  console.log("Before context generation");
-
-  const context = docs
+const docs = await Rag.find(
+  {},
+  {
+    text: 1,
+    embedding: 1
+  }
+).lean();
+const context = docs
     .map((doc) => ({
       text: doc.text,
       score: cosineSimilarity(queryEmbedding, doc.embedding),
@@ -30,10 +24,14 @@ async function retriveDoc(query = "computer can store") {
     .slice(0, 3)
     .map((doc) => doc.text)
     .join("\n\n");
+    return context;
 
-  console.log("After context generation");
+  } catch (error) {
+    console.error("RETRIEVE ERROR");
+    console.error(error);
 
-  return context;
+    throw error;
+  }
 }
 
 export default retriveDoc;

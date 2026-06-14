@@ -27,18 +27,13 @@ async function getEmbedding(text) {
   try {
     const response = await fetch(
       "https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent",
-      options
+      options,
     );
 
     if (!response.ok) {
       throw new Error(`Gemini API Error: ${response.status}`);
     }
-
     const data = await response.json();
-
-    // Useful while debugging, remove later if not needed
-    console.log(JSON.stringify(data, null, 2));
-
     return data.embedding.values;
   } catch (error) {
     console.error("API Error:", error);

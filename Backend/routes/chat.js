@@ -10,9 +10,7 @@ router.post("/test", async (req, res) => {
     const thread = new Thread({
       threadId: "test-thread-001",
     });
-
     await thread.save();
-
     res.status(201).json(thread);
   } catch (error) {
     console.error("Error in /test route:", error);
@@ -73,6 +71,7 @@ router.delete("/thread/:threadId", async (req, res) => {
 
 // Send message and get AI response
 router.post("/chat", async (req, res) => {
+  console.log(req.body);
   const { threadId, message } = req.body;
 
   if (!threadId || !message) {
@@ -102,21 +101,29 @@ router.post("/chat", async (req, res) => {
       });
     }
 
-    const assistantReply = await geminiService(message);
+    const response = await geminiService(message);
+   
 
-    thread.messages.push({
-      role: "assistant",
-      content: assistantReply,
-    });
+    const assistantReply = await response?.candidates?.[0]?.content?.parts?.[0]?.text;
+    console.log("assistantReply", assistantReply);
 
-    thread.updatedAt = new Date();
+    if (!assistantReply) {
+      return res.status(500).json({
+        error: "Gemini did not return a response",
+      });}
 
-    await thread.save();
+      thread.messages.push({
+        role: "assistant",
+        content: assistantReply,
+      });
+      thread.updatedAt = new Date();
 
-    res.json({
-      reply: assistantReply,
-    });
-  } catch (error) {
+      await thread.save();
+      return res.json({
+        reply: assistantReply,
+      });
+    }
+  catch (error) {
     console.error("Error in /chat route:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }

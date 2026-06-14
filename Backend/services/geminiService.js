@@ -30,14 +30,18 @@ async function geminiService(prompt) {
       "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
       options,
     );
-    if (!response.ok) {
-      throw new Error(`Gemini API Error: ${response.status}`);
-    }
+    // if (!response.ok) {
+    //   throw new Error(`Gemini API Error: ${response.status}`);
+    // }
     const data = await response.json();
-
-    return data.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (!response.ok) {
+  throw new Error(JSON.stringify(data));
+}
+    console.log(data);
+    
+    return data;
   } catch (error) {
-    console.error("API Error:", error);
+    console.error("API Error:", error.message);
   }
 }
 

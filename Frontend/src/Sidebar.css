@@ -1,0 +1,94 @@
+.sidebar{
+    background-color: #171717;
+    color: #b4b4b4;
+    height:100vh;
+    min-width:320px;
+    display: flex;
+    flex-direction: column;
+    justify-content:space-between;
+}
+button{
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin: 10px;
+padding: 10px;
+border-radius: 12px;
+background-color: transparent;
+border: solid rgba(255,255,255,0.5) ;
+cursor: pointer;
+}
+.logo{
+height: 25px;
+width: 25px;
+background-color: white;
+border-radius: 50%;
+object-fit: cover;
+}
+button span{
+    font-size: 20px;
+}
+button:hover{
+    background-color:rgba(255,255,255,0.05) ;
+}
+.history{
+    margin: 10px;
+padding: 10px;
+height: 100%;
+overflow-y: auto;
+}
+.historyTitle{
+    font-size: medium;
+    text-align: center;
+    
+}
+.history li{
+    list-style-type: none;
+    cursor: pointer;
+    padding: 2px 5px;
+    margin-bottom:0.3rem ;
+    font-size: 14px;
+    border:solid 10px transparent;
+    position: relative;
+    background-color: rgba(255,255,255,0.02);
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;}
+    .history li span{
+        font-size: medium;
+    }
+    .history li span i:hover{
+      color:darkorchid;
+    }
+.history li:hover{
+    background-color: rgba(255,255,255,0.05);
+    border-radius: 12px;
+}
+.sign{
+    padding: 10px;
+    margin: 10px;
+    font-size: 14px;
+    text-align: center;
+    border-top:solid 0.5px rgba(255,255,255,0.5);
+}
+.highlight {
+        background-color: rgba(255, 255, 255, 0.2) !important;
+    border-radius: 12px !important;
+}
+  /*       ScrollBar      */
+        
+        .scrollbar::-webkit-scrollbar {
+            width: 12px;
+        }
+        
+        .scrollbar::-webkit-scrollbar-track {
+            border-radius: 8px;
+            background-color: #e7e7e7;
+            border: 1px solid #cacaca;
+            box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+        }
+        
+        .scrollbar::-webkit-scrollbar-thumb {
+            border-radius: 8px;
+            background-color: #363636;
+        }

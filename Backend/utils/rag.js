@@ -20,7 +20,7 @@ Answer using the provided context. If the answer is not found in the context, sa
 //response of api 
   console.log("Before Gemini response");
   const answer = await geminiService(prompt);
+ return answer.candidates?.[0]?.content?.parts?.[0]?.text;
   console.log("after Gemini response");
-  return answer;
 }
 export default RagProcess;

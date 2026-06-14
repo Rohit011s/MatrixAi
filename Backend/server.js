@@ -7,6 +7,7 @@ import chatRoutes from "./routes/chat.js";
 import saveDoc from "./services/saveDocs.js";
 import retriveDoc from "./services/retriveDoc.js";
 import RagProcess from "./utils/rag.js";
+import Rag from "./models/RagDoc.js"
 const filepath="./utils/computer.txt"
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -28,6 +29,8 @@ const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI);
     console.log("Connected to MongoDB successfully");
+
+ 
     // saveDoc(filepath);
     // console.log("save succesfully");
     // const answer = await RagProcess("was is rohit secret code");
