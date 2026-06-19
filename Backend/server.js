@@ -1,41 +1,88 @@
 import express from "express";
 import "dotenv/config";
 import cors from "cors";
-import mongoose from "mongoose";
-import geminiService from "./services/geminiService.js";
-import chatRoutes from "./routes/chat.js";
-import saveDoc from "./services/saveDocs.js";
-import retriveDoc from "./services/retriveDoc.js";
-import RagProcess from "./utils/rag.js";
-import Rag from "./models/RagDoc.js"
-const filepath="./utils/computer.txt"
+import session from "express-session";
+import MongoStore from "connect-mongo";
+import passport from "passport";
+
+import connectDB from "./config/db.js";
+import configurePassport from "./config/passport.js";
+
+import authRoutes from "./routes/authRoutes.js";
+import chatRoutes from "./routes/chatRoutes.js";
+import threadRoutes from "./routes/threadRoutes.js";
+import documentRoutes from "./routes/documentRoutes.js";
+
 const app = express();
 const PORT = process.env.PORT || 8080;
-app.use(express.json());
-app.use(cors());
-app.use("/api", chatRoutes);
 
-
-app.get("/", async (req, res) => {
-  //    let data = await GenerateContent("tell me a joke");
-  let data = "hellow world";
-  res.send(data);
+/*
+  Session Store
+  Stores user sessions in MongoDB.
+*/
+const store = MongoStore.create({
+  mongoUrl: process.env.MONGODB_URI,
+  crypto: {
+    secret: process.env.SESSION_SECRET,
+  },
 });
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-  connectDB();
-});
-const connectDB = async () => {
-  try {
-    await mongoose.connect(process.env.MONGODB_URI);
-    console.log("Connected to MongoDB successfully");
 
- 
-    // saveDoc(filepath);
-    // console.log("save succesfully");
-    // const answer = await RagProcess("was is rohit secret code");
-    // console.log(answer);
-  } catch (error) {
-    console.error("Error connecting to MongoDB:", error);
-  }
+/*
+  Session Configuration
+*/
+const sessionOptions = {
+  store,
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+    httpOnly: true,
+  },
 };
+
+/*
+  Middleware
+*/
+app.use(express.json());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
+app.use(express.urlencoded({ extended: true }));
+app.use(session(sessionOptions));
+
+/*
+  Passport Authentication
+*/
+configurePassport();
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+/*
+  API Routes
+*/
+app.use("/api", authRoutes);
+app.use("/api", chatRoutes);
+app.use("/api", threadRoutes);
+app.use("/api", documentRoutes);
+
+/*
+   Check Route
+*/
+app.get("/", (req, res) => {
+  res.send("hello world");
+});
+
+/*
+  Start Server
+*/
+app.listen(PORT, async () => {
+  console.log(`Server is running on port ${PORT}`);
+
+  await connectDB();
+});

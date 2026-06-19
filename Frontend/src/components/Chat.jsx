@@ -1,5 +1,5 @@
 import "./Chat.css";
-import { MyContext } from "./MyContext.jsx";
+import { MyContext } from "../context/MyContext.jsx";
 import { useContext, useEffect, useState } from "react";
 import rehypeHighlight from "rehype-highlight";
 import Markdown from "react-markdown";
@@ -18,9 +18,10 @@ function Chat() {
 
     const interval = setInterval(() => {
       setLastReply(content.slice(0, idx + 1).join(" "));
-      idx++;
+      idx+=3;
 
       if (idx >= content.length) {
+          setLastReply(reply); 
         clearInterval(interval);
       }
     }, 40);

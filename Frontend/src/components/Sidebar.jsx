@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import "./Sidebar.css";
-import { MyContext } from "./MyContext";
+import { MyContext } from "../context/MyContext";
 import { v1 as uuidv1 } from "uuid";
 
 function Sidebar() {
@@ -8,12 +8,13 @@ function Sidebar() {
     allThreads,
     setAllThreads,
     currThreadId,
+    prevChats,
     setPrevChats,
     setReply,
     setCurrThreadId,
     setLastReply,
     setNewChat,
-    setPrompt,
+    setPrompt,user,setUser
   } = useContext(MyContext);
 
   const createNewChat = () => {
@@ -26,9 +27,16 @@ function Sidebar() {
 
   const threads = async () => {
     try {
-      const response = await fetch("http://localhost:8080/api/thread");
-      const data = await response.json();
-      setAllThreads(data);
+      const response = await fetch("http://localhost:8080/api/thread",{credentials: "include"});
+     const data = await response.json();
+console.log(data);
+
+if (response.ok) {
+  setAllThreads(data);
+} else {
+  console.log(data);
+  setAllThreads([]);
+}
     } catch (error) {
       console.log(error);
     }
@@ -40,7 +48,7 @@ function Sidebar() {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/api/thread/${id}`
+        `http://localhost:8080/api/thread/${id}`,{credentials: "include"}
       );
 
       const res = await response.json();
@@ -59,6 +67,7 @@ function Sidebar() {
     try {
       await fetch(`http://localhost:8080/api/thread/${id}`, {
         method: "DELETE",
+        credentials: "include"
       });
 
       setAllThreads(
@@ -74,8 +83,11 @@ function Sidebar() {
   };
 
   useEffect(() => {
-    threads();
-  }, [currThreadId]);
+    if(!user)return;
+    
+      threads();
+
+  }, [user,currThreadId,prevChats]);
 
   return (
     <section className="sidebar">

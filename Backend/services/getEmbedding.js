@@ -1,42 +1,78 @@
-import dotenv from "dotenv";
 
-dotenv.config({
-  path: "../.env",
-});
+/*
+  Generate Embedding
 
-// Generate embedding vector for a piece of text
+  Purpose:
+  Convert text into a numerical vector representation.
+
+  Used for:
+  - Document embeddings during upload
+  - Query embeddings during retrieval
+
+  These embeddings are later compared using
+  cosine similarity to find relevant chunks.
+*/
+
 async function getEmbedding(text) {
-  const options = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-goog-api-key": process.env.GEMINI_API_KEY,
-    },
-    body: JSON.stringify({
-      taskType: "SEMANTIC_SIMILARITY",
-      content: {
-        parts: [
-          {
-            text,
-          },
-        ],
-      },
-    }),
-  };
-
   try {
     const response = await fetch(
       "https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent",
-      options,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+
+          // API key stored securely in .env
+          "x-goog-api-key": process.env.GEMINI_API_KEY,
+        },
+
+        body: JSON.stringify({
+          taskType: "SEMANTIC_SIMILARITY",
+
+          content: {
+            parts: [
+              {
+                text,
+              },
+            ],
+          },
+        }),
+      }
     );
 
-    if (!response.ok) {
-      throw new Error(`Gemini API Error: ${response.status}`);
-    }
     const data = await response.json();
-    return data.embedding.values;
+
+    /*
+      Handle Gemini embedding API failures.
+
+      Examples:
+      - 401 Invalid API Key
+      - 429 Quota Exceeded
+      - 503 Service Busy
+    */
+    if (!response.ok) {
+      throw new Error(
+        data?.error?.message ||
+          `Embedding API Error: ${response.status}`
+      );
+    }
+
+    const embedding = data?.embedding?.values;
+
+    if (!embedding) {
+      throw new Error(
+        "No embedding returned from Gemini."
+      );
+    }
+
+    return embedding;
   } catch (error) {
-    console.error("API Error:", error);
+    console.error(
+      "EMBEDDING ERROR:",
+      error.message
+    );
+
+    throw error;
   }
 }
 

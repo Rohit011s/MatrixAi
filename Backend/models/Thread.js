@@ -16,10 +16,15 @@ const messageSchema = new mongoose.Schema({
   },
 });
 const threadSchema = new mongoose.Schema({
-    threadId: {
+  threadId: {
     type: String,
     required: true,
     unique: true,
+  },
+  user_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
   },
   createdAt: {
     type: Date,

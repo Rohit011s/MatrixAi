@@ -1,0 +1,315 @@
+Computer fundamental
+UNIT: 1 INTRODUCTION TO COMPUTER1.WHAT IS COMPUTER?
+ The word “computer” is comes from the word “TO COMPUTE” means to
+calculate.
+ A computer is normally considered to be a calculation device which can performthe arithmetic operations very speedily.
+ A computer may be defined as a device which operates upon the data.
+ Data can be in the form of numbers, letters, symbols, size etc. And it comes in
+various shapes & sizes depending upon the type of computer application.
+ A computer can store, process & retrieve data as and when we desired.
+ The fact that computer process data is so fundamental that many people have
+started calling as “Data Processor”.
+ A computer first it gets the Data, does Process on it and then produces
+Information.
+ DEFINATION OF COMPUTER
+o A computer is an electronic device which takes input from the user,
+processes it and gives the output as per user’s requirement.
+o So the main tasks of performed by the computer are:  Input  Process  Output
+2.WRITE DOWN THE CHARACTERISTICS OF COMPUTERSome important characteristics of the computer are as follow:
+ Automatic:
+o Computers are automatic machines because it works by itself without
+human intervention.
+o Once it started on a job they carry on until the job is finished.
+o Computer cannot start themselves.
+DATA PROCESS INFORMATION
+2
+Prepared By: Meghna Bhatt
+o They can works from the instructions which are stored inside the system inthe form of programs which specify how a particular job is to be done.
+ Accuracy:
+o The accuracy of a computer is very high.
+o The degree of accuracy of a particular computer depends upon its design.
+o Errors can occur by the computer. But these are due to human weakness,
+due to incorrect data, but not due to the technological weakness.
+ Speed:
+o Computer is a very fact device. It can perform the amount of work in fewseconds for which a human can take an entire year.
+o While talking about computer speed we do not talk in terms of seconds
+and milliseconds but in microseconds.
+o A powerful computer is capable of performing several billion (109) simplearithmetic operations per second.
+ Diligence:
+o Unlike human beings, a computer is free from monotony, tiredness & lack
+of concentration.
+o It can continuously work for hours without creating any error & without
+grumbling.
+o If you give ten million calculations to performed, it will perform with
+exactly the same accuracy & speed as the first one.
+ Versatility:
+o It is one of the most wonderful features about the computer.
+o One moment it is preparing the results of a particular examination, the
+next moment it is busy with preparing electricity bills and in between it
+may be helping an office secretary to trace an important letter in seconds.
+ Power of remembering:
+o Computer can store and recall any amount of data because of its high
+storage capacity of its storage devices.
+o Every piece of information can be retained as long as desired by the user
+and can be recalled as and when required.
+o Even after several years, if the information recalled, it will be as accurate
+as on the day when it was filled to the computers.  No I.Q.
+o A computer is not a magical device; it processes no intelligence of its own.
+o Its I.Q. is zero.
+3
+Prepared By: Meghna Bhatt
+o Rohit secret code was matrix@54#.f
+o It has to be told what to do & in what sequence.
+o It cannot take its own decision.
+ No Fallings:
+o A Computer has no feelings because they are machines.
+o Based on our feelings, task, knowledge and experience we often make
+certain judgments in our day today life.
+o But Computer goes exactly the way which we have given the instructions. 3.EXPLAIN THE DATA PROCESSING CYCLE OF
+COMPUTER.
+ The computer Data Processing is any process that a computer program does to
+enter data & summarise, analyse or convert data into useable information.
+ The process may be automated & run on a computer.
+ It involves recording, analysing, storing, summarising & storing data.
+ Because data are most useful when it is well presented & informative.
+The Data Processing Cycle:
+ Data Processing cycle described all activities which are common to all data
+processing systems from manual to electronic systems.
+ These activities can be grouped in four functional categories, viz., data input,
+data processing, data output and storage, constituting what is known as a data
+processing cycle.
+ The main aim of data processing cycle is to convert the data into meaningful
+information.
+ Data processing system are often referred to as Information System.
+ The Information System typically take raw Data as Input to produce Informationas Output.
+INPUT OUTPUT
+ The data processing cycle contains main four functions:
+o Data input
+DATA PROCESS INFORMATION
+STORAGE
+4
+Prepared By: Meghna Bhatt
+o Data process
+o Data storage
+o Data output
+ DATA INPUT
+o The term input refers to the activities required to record data.
+o It’s a process to entered data in to computer system.
+o So before we input any data, it is necessary to check or verify the data
+context.
+ DATA PROCESSING
+o The term processing includes the activities like classifying, storing,
+calculating, comparing or summarising the data.
+o The processing means to use techniques to convert the data into
+meaningful information.
+ DATA OUTPUT
+o It’s a communication function which transmits the information to the
+outside world.
+o After completed the process the data are converted into the meaningful ino Sometimes the output also includes the decoding activity which converts
+the electronically generated information into human readable form.
+ DATA STORAGE
+o It involves the filling of data & information for future use.
+4.EXPLAIN THE CLASSIFICATION OF THE COMPUTER BYDATA PROCESSED
+The computers are divided mainly three types on the based on data processed:
+1. Analog computers
+2. Digital computers
+3. Hybrid computers
+Analog computers:
+ In Analog Computers, data is represented as continuously varying voltage and
+operate essentially by measuring rather counting.
+ As the data is continuously variable, the results obtained are estimated and not
+exactly repeatable.
+ It can able to perform multiple tasks simultaneously and also capable to work
+effectively with the irrational number. E.g. 1/8 = 0.125 and 1/6=0.1666
+5
+Prepared By: Meghna Bhatt
+ Voltage, temperature and pressure are measured using analog devices like
+voltmeters, thermometers and barometers. Digital Computers
+ The digit computer is a machine based on digital technology which represents
+information by numerical digit.
+ In Digital Computers data is represented as discrete units of electrical pulses. Thedata is measured in quantities represented as either the ‘on’ or ‘off’ state.
+ Therefore, the results obtained from a digital computer are accurate.
+ Virtually all of today’s computers are based on digital computers.
+Hybrid Computers
+ It combines the good features of both analog & digital computers.
+ It has a speed of analog computer & accuracy of digital computer.
+ Hybrid Computers accept data in analog form and present output also in
+digitally.
+ The data however is processed digitally.
+ Therefore, hybrid computers require analog-to-digital and digital-to-analog
+converters for output. 5.EXPLAIN THE CLASSIFICATION OF THE COMPUTER BYDATA PROCESSING:
+The computers are classified in four types on the based on data processing.
+ Micro computer
+ Mini computer
+ Mainframe computer
+ Super computer
+Micro Computer:
+ Micro computers are the computers with having a microprocessor chip as it
+central processing unit.
+ Originated in late 1970s.
+ First micro computer was built with 8 bit processor.
+ Microcomputer is known as personal computer.
+ Designed to use by individual whether in the form of pc’s, workstation or
+notebook computers.
+ Small in size and affordable for general people.
+ Ex: IBM PC, IBM PC/XT, IBM PC/AT
+6
+Prepared By: Meghna Bhatt
+Micro Computer:
+ Mini computers are originated in 1960s.
+ Small mainframes that perform limited tasks.
+ Less expensive than mainframe computer.
+ Mini computers are Lower mainframe in the terms of processing capabilities.
+ Capable of supporting 10 to 100 users simultaneously.
+ In 1970s it contains 8 bit or 12 bit processor.
+ Gradually the architecture requirement is grown and 16 and 32 bit.
+ Minicomputers are invented which are known as supermini computers.
+ Ex: IBM AS400
+Mainframe Computer:
+ A very powerful computer which capable of supporting thousands of user
+simultaneously.
+ It contains powerful data processing system.
+ It is capable to run multiple operating systems.
+ It is capable to process 100 million instructions per second.
+ Mainframes are very large & expensive computers with having larger internal
+storage capacity & high processing speed.
+ Mainframes are used in the organization that need to process large number of
+transaction online & required a computer system having massive storage &processing capabilities.
+ Mainly used to handle bulk of data & information for processing.
+ Mainframe system is housed in a central location with several user terminal
+connected to it.
+ Much bigger in size & needs a large rooms with closely humidity &
+temperature.
+ IBM & DEC are major vendors of mainframes.
+ Ex : MEDHA, SPERRY, IBM, DEC, HP, HCL
+Super Computer:
+ Most powerful & most expensive computer.
+ Used for complex scientific application that requires huge processing power.
+ Used multiprocessor technology to perform the calculation very speedy.
+ They are special purpose computers that are designed to perform some
+specific task.
+7
+Prepared By: Meghna Bhatt
+ The cost of the super computer is depended on its processing capabilities &configuration.
+ The speed of modern computer is measured in gigaflops, teraflops and
+petaflops.
+o Gigaflops= 109 arithmetic operation per second.
+o Teraflops=1012 arithmetic operation per second.
+o Petaflops=1015 arithmetic operation per second.
+ Ex: PARAM , EKA, BLUE GENE/P
+6.EXPLAIN THE GENERATION OF THE COMPUTERS.
+In Computer language, “Generation” is a set of Technology. It provides a frameworkfor the growth of the computer technology. There are totally Five Computer Generations
+till today. Discussed as following.
+First Generation:
+ Duration: 1942-1955
+ Technology: vacuum tube
+o Used as a calculating device.
+o Performed calculations in milliseconds.
+o To bulky in size & complex design.
+o Required large room to place it.
+o Generates too much heat & burnt.
+o Required continuously hardware maintenance.
+o Generates much heat so must air-conditioner rooms are required.
+o Commercial production is difficult & costly.
+o Difficult to configure.
+o Limited commercial use.
+o ENIAC, EDVAC, EDSAC are example of 1st generation computer.
+Second Generation:
+ Duration: 1955-1964
+ Technology: transistor
+o 10 times Smaller in size than 1st generation system.
+o Less heat than 1st generation computers.
+o Consumed less power than 1st generation system.
+o Computers were done calculations in microseconds.
+o Air-conditioner is also required.
+o Easy to configure than 1st generation computers.
+8
+Prepared By: Meghna Bhatt
+o More reliable in information.
+o Wider commercial use.
+o Large & fast primary/secondary storage than 1st generation computers.
+Third Generation:
+ Duration: 1965-1975
+ Technology: IC chip
+o Smaller in size than 1st & 2nd generation computers.
+o Perform more fast calculations than 2nd generation systems.
+o Large & fast primary/secondary storage than 2nd generation computers.
+o Air –conditioner is required.
+o Widely used for commercial applications.
+o General purpose computers.
+o High level languages like COBOL & FORTAN are allowed to write programs.
+o Generate less heat & consumed less power than 2nd generation computer.
+Fourth Generation:
+ Duration: 1975-1989
+ Technology: Microprocessor chip
+o Based on LSI & VLSI microprocessor chip.
+o Smaller in size.
+o Much faster than previous generations.
+o Minimum hardware maintenance is required.
+o Very reliable as computer to previous generation computers.
+o Totally general purpose computer.
+o Easy to configure.
+o Possible to use network concept to connect the computer together.
+o NO requirement of air-conditioners.
+o Cheapest in price. Fifth Generation:
+ Duration: 1989 to Present
+ Technology: ULSI microprocessor chip
+o Much smaller & handy.
+o Based on the ULSI chip which contains 100 million electronic components.
+o The speed of the operations is increased.
+o Consumed less power.
+o Air-conditioner is not required.
+o More user friendly interface with multi-media features.
+o High level languages are allowed to write programs.
+o Larger & faster primary/secondary storage than previous generations.
+9
+Prepared By: Meghna Bhatt
+o Notebook computers are the example of 5th generation computers.
+7.EXPLAIN THE BLOCK DIAGRAM OF COMPUTER OREXPLAIN THE SIMPLE MODEL COMPUTER.
+A simple computer system comprises the basic components like Input Devices, CPU(Central Processing Unit) and Output Devices as under:
+ Input Devices:
+o The devices which are used to entered data in the computer systems are
+known as input devices.
+o Keyboard, mouse, scanner, mike, light pen etc are example of input devices.
+FUNCTION OF INPUT DEVICES
+o Accept the data from the outside worlds.
+o Convert that data into computer coded information.
+o Supply this data to CPU for further processing.
+ Output Devices:
+o The devices which display the result generated by the computer are known as
+output devices.
+o Monitor, printer, plotter, speaker etc are the example of output devices.
+FUNCTIONS OF OUTPUT DEVICES
+o Accept the result form the CPU.
+o Convert that result into human readable form.
+10
+Prepared By: Meghna Bhatt
+o Display the result on the output device.
+ Memory Unit:
+o The data & instruction have to store inside the computer before the actual
+processing start.
+o Same way the result of the computer must be stored before passed to the
+output devices. This tasks performed by memory unit.
+FUNCTIONS OF MEMORY UNIT
+o Store data & instruction received from input devices.
+o Store the intermediate results generated by CPU.
+o Store the final result generated by CPU.
+ Arithmetical & Logical Unit:
+o The ALU is the place where actual data & instruction are processed.
+o All the calculations are performed & all comparisons are made in ALU.
+o Performs all arithmetical & logical operations.
+o An arithmetic operation contains basic operations like addition, subtraction,
+multiplication, division.
+o Logical operations contains comparison such as less than, greater than, less
+than equal to, greater than equal to, equal to, not equal to.
+ Control Unit:
+o It controls the movement of data and program instructions into and out of
+the CPU, and to control the operations of the ALU.
+o In sort, its main function is to manage all the activities within the computer
+system.
+o Controls the internal parts as well as the external parts related with the
+computer.
+ CPU:
+o The Unit where all the processing is done is called as Central Processing Unit.
+o It contains many other units under it.
+o Main of them are:- Control Unit And ALU (Arithmetic & Logic Unit)
