@@ -1,84 +1,98 @@
 import { useContext, useEffect, useState } from "react";
-import "./Filemenu.css";
-import { data } from "react-router-dom";
+import "../styles/components/Filemenu.css";
+import toast from "react-hot-toast";
 import { MyContext } from "../context/MyContext";
+import {
+  deleteDocument,
+  getDocuments,
+  uploadDocument,
+} from "../../services/documentApi";
+import handleError from "../utils/handleError";
 function Filemenu() {
-  const {selectedFiles, setSelectedFiles}=useContext(MyContext)
-  const [files, setFiles] = useState(null);
-
-  const fileSelctor = (e,id) => {
+  const { selectedFiles, setSelectedFiles, files, setFiles, setWithRag } =
+    useContext(MyContext);
+  const [uploading, setUploading] = useState(false);
+  // Add or remove file from selected RAG files
+  const fileSelctor = (e, id) => {
     e.stopPropagation();
-     if (e.target.checked) {
-    setSelectedFiles((prev) => [...prev, id]);
-  } else {
-    setSelectedFiles((prev) => 
-   prev.filter((fileId) => fileId !== id)
-    );
-  }
+    if (e.target.checked) {
+      setSelectedFiles((prev) => [...prev, id]);
+    } else {
+      setSelectedFiles((prev) => prev.filter((fileId) => fileId !== id));
+    }
   };
 
+  // Fetch all uploaded documents
   const getFiles = async () => {
     try {
-      const response = await fetch("http://localhost:8080/api/documents", {
-        credentials: "include",
-      });
-      const res = await response.json();
-
+      const res = await getDocuments();
       setFiles(res);
     } catch (err) {
-      console.log(err);
+      handleError(err);
     }
   };
+  // Delete document and update local state
   const deleteFile = async (id) => {
     try {
-      const response = await fetch(
-        `http://localhost:8080/api/documents/${id}`,
-        {
-          method: "DELETE",
-          credentials: "include",
-        },
-      );
+      const response = await deleteDocument(id);
+      // Remove deleted file from selected files
+      setSelectedFiles((prev) => prev.filter((fileId) => fileId !== id));
 
-      const data = await response.json();
-      console.log(data);
-
+      // Remove deleted file from file list
       setFiles((prev) => prev.filter((file) => file._id !== id));
+      toast.success("File Deleted");
+      if (!files) {
+        setWithRag(false);
+      }
     } catch (err) {
-      console.log(err);
+      handleError(err);
     }
   };
+  // Load documents when component mounts
+
   useEffect(() => {
     getFiles();
   }, []);
+  // Upload a new document for RAG
   const handleFileUpload = async (e) => {
-    const file = e.target.files[0];
-
-    const formData = new FormData();
-
-    formData.append("document", file);
-
-    const response = await fetch("http://localhost:8080/api/upload", {
-      method: "POST",
-      body: formData,
-      credentials: "include",
-    });
-
-    const data = await response.json();
+    // Prevent multiple upload requests
+    if (uploading) return;
+    if (!files) return;
+    setUploading(true);
+    try {
+      // Prepare form data for file upload
+      const file = e.target.files[0];
+      const formData = new FormData();
+      formData.append("document", file);
+      // Send selected file to backend
+      const res = await uploadDocument(formData);
+      toast.success("file uploaded");
+      // Refresh document list after upload
+      getFiles();
+      getFiles();
+    } catch (err) {
+      handleError(err);
+    } finally {
+      setUploading(false);
+    }
   };
   return (
     <div className="file-menu">
+      {/* Display uploaded documents */}
+
       {files &&
         files.map((file) => (
           <div className="file-name" key={file._id}>
+            {/* Select file for RAG queries */}
             <input
               type="checkbox"
               checked={selectedFiles.includes(file._id)}
-              onChange={(e)=>{
-                fileSelctor(e,file._id)}
-              }
-              
+              onChange={(e) => {
+                fileSelctor(e, file._id);
+              }}
             />{" "}
             <span>{file.fileName}</span>
+            {/* Delete document */}
             <span
               onClick={(e) => {
                 e.stopPropagation();
@@ -94,17 +108,18 @@ function Filemenu() {
           htmlFor="file-upload"
           onClick={(e) => {
             e.stopPropagation();
-            console.log("clicked");
           }}
         >
-          <i className="fa-solid fa-paperclip"></i>&nbsp;&nbsp;upload file
+          <i className="fa-solid fa-paperclip"></i>&nbsp;&nbsp;
+          {uploading ? "uploading" : "upload"}
+          {/* Hidden file input */}
           <input
             id="file-upload"
             type="file"
             hidden
             onChange={(e) => {
               e.stopPropagation();
-              console.log("cahnaged");
+
               handleFileUpload(e);
             }}
           />

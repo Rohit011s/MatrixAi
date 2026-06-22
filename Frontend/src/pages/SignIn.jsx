@@ -1,52 +1,72 @@
 import { useContext, useState } from "react";
-import "./SignUp.css";
+import "../styles/pages/SignUp.css";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { MyContext } from "../context/MyContext";
+import { signin } from "../../services/authApi";
+import toast from "react-hot-toast";
+import handleError from "../utils/handleError";
 function Signin() {
-  const {setUser}=useContext(MyContext);
+  const { setUser } = useContext(MyContext);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     username: "",
     password: "",
   });
+  const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
+    setErrors({});
   };
-
+  // Validate signin form inputs
+  const validate = () => {
+    const newError = {};
+    //empty fields
+    if (!formData.username.trim()) {
+      newError.username = "username required";
+    }
+    if (!formData.password.trim()) {
+      newError.password = "passwored required";
+    }
+    //set error
+    setErrors(newError);
+    // Return validation result
+    return Object.keys(newError).length === 0;
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
-     try{
-        const response= await fetch("http://localhost:8080/api/signin",{
-    method: "POST",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-  username: formData.username.trim(),
-  password: formData.password.trim(),
-    }),
-  }
-);
-if (!response.ok) {
-  console.log("Request failed:", response.status);
-  return;
-}
-console.log(response);
 
-const res =await response.json();
-setUser(res.user);
-   navigate("/");
+    // Prevent duplicate signin requests
+    if (loading) return;
+    // Stop submission if validation fails
+    if (!validate()) return;
+    setLoading(true);
 
-}catch(err){console.log(err);
+    try {
+      // Send signin request to backend
+      const res = await signin({
+        username: formData.username.trim(),
+        password: formData.password.trim(),
+      });
 
-}
+      // Store authenticated user in global state
+      setUser(res.user);
 
+      toast.success("Login Successful");
+      navigate("/");
+    } catch (err) {
+      if (err.status === 401) {
+        setUser(null);
+      }
+      handleError(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -57,8 +77,9 @@ setUser(res.user);
       </h3>
 
       <p className="subtitle">Sign In</p>
-
+      {/* Signin form */}
       <form onSubmit={handleSubmit}>
+        {/* Username input field */}
         <div className="inputDiv">
           <label>username</label>
           <input
@@ -68,8 +89,11 @@ setUser(res.user);
             value={formData.username}
             onChange={handleChange}
           />
+          {/* Display username validation error */}
+          <span className="InputErrors">{errors.username}</span>
         </div>
 
+        {/* Password input field */}
         <div className="inputDiv">
           <label>Password</label>
           <input
@@ -79,12 +103,15 @@ setUser(res.user);
             value={formData.password}
             onChange={handleChange}
           />
+          {/* Display password validation error */}
+          <span className="InputErrors">{errors.password}</span>
         </div>
 
-        <button className="sign-btn" type="submit">
-          Sign In
+        <button disabled={loading} className="sign-btn" type="submit">
+          {loading ? "Signing In..." : "Sign In"}
         </button>
 
+        {/* Link to signup page */}
         <p className="auth-link">
           Don't have an account? <Link to="/signup">Sign Up</Link>
         </p>

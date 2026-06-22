@@ -1,6 +1,6 @@
 import User from "../models/User.js";
 
-export const signup= async (req, res) => {
+export const signup = async (req, res, next) => {
   try {
     const { username, email, password } = req.body;
 
@@ -9,19 +9,33 @@ export const signup= async (req, res) => {
       email,
     });
 
-    const registeredUser = await User.register(newUser, password);
+    const registeredUser = await User.register(
+      newUser,
+      password
+    );
 
-    res.status(201).json({
-      success: true,
-      message: "User registered successfully",
+    req.login(registeredUser, (err) => {
+      if (err) {
+        return next(err);
+      }
+
+      return res.status(201).json({
+        success: true,
+        message: "User registered successfully",
+        user: {
+          username: registeredUser.username,
+          email: registeredUser.email,
+        },
+      });
     });
+
   } catch (err) {
     res.status(400).json({
       success: false,
       message: err.message,
     });
   }
-}
+};
 export const signin= (req, res) => {
   console.log(req.user);
 

@@ -1,4 +1,4 @@
-import "./ChatWindow.css";
+import "../styles/components/ChatWindow.css";
 import Chat from "./Chat.jsx";
 import { MyContext } from "../context/MyContext.jsx";
 import { useContext, useState, useEffect } from "react";
@@ -6,6 +6,10 @@ import { DNA } from "react-loader-spinner";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Filemenu from "./Filemenu.jsx";
+import toast from "react-hot-toast";
+import { sendMessage } from "../../services/chatApi.js";
+import { logout as logoutUser } from "../../services/authApi.js";
+import handleError from "../utils/handleError.js";
 function ChatWindow() {
   const {
     prompt,
@@ -16,6 +20,7 @@ function ChatWindow() {
     currThreadId,
     setPrevChats,
     user,
+    files,
     setUser,
     setAllThreads,
     selectedFiles,
@@ -25,65 +30,70 @@ function ChatWindow() {
   const [loader, setLoader] = useState(false);
   const [withRag, setWithRag] = useState(false);
   const navigate = useNavigate();
+  // Toggle user dropdown menu
   const togglrMenu = () => {
     setMenu(!menu);
   };
+  // Toggle user dropdown menu
   const toggleRag = () => {
-    setWithRag(!withRag);
-    console.log(withRag);
-  };
-  const logout = async () => {
-    const response = await fetch("http://localhost:8080/api/logout", {
-      method: "POST",
-      credentials: "include",
-    });
+    if (!user) {
+      toast.error("Sign in required");
+      return;
+    }
+    if (!files || files.length === 0) {
+      toast.error("Upload a file first");
+      return;
+    }
 
-    if (response.ok) {
-      console.log("logout clicked");
+    setWithRag((prev) => !prev);
+  };
+// Logout user and clear all client-side state
+const logout = async () => {
+    try {
+      await logoutUser();
+      toast.success("Logout successfuly");
       setUser(null);
       setAllThreads([]);
       setPrevChats([]);
       setReply(null);
-
       window.location.reload();
+    } catch (err) {
+      handleError(err);
     }
   };
-  const getReply = async () => {
+// Send user prompt to backend and receive assistant response
+const getReply = async () => {
+// Prevent duplicate requests while current request is processing
+if (loader) return;
     if (!prompt.trim()) return;
+  // RAG mode requires at least one selected file
+if (withRag && !selectedFiles.length) {
+      toast.error("select file");
+      return;
+    }
     setNewChat(false);
     setLoader(true);
 
     try {
-      console.log(user);
       if (!user) {
         navigate("/signin");
         return;
       }
-      const response = await fetch("http://localhost:8080/api/chat", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          message: prompt,
-          threadId: currThreadId,
-          rag: withRag,
-          selectedfiles: selectedFiles,
-        }),
-      });
-
-      const res = await response.json();
+      const res = await sendMessage(
+        prompt,
+        currThreadId,
+        withRag,
+        selectedFiles,
+      );
       setReply(res.reply);
     } catch (err) {
-      console.log(err);
+      handleError(err);
     } finally {
       setLoader(false);
     }
   };
-
-  // Add the latest user message and AI reply to chat history
-  useEffect(() => {
+// Save latest user message and assistant response to chat history
+useEffect(() => {
     if (prompt && reply) {
       setPrevChats((prevChats) => [
         ...prevChats,
@@ -100,7 +110,12 @@ function ChatWindow() {
 
     setPrompt("");
   }, [reply]);
-
+  // Disable RAG automatically when all files are removed
+useEffect(() => {
+  if (!files?.length) {
+    setWithRag(false);
+  }
+}, [files]);
   return (
     <div className="chatwindow">
       <div className="navbar">
@@ -110,7 +125,7 @@ function ChatWindow() {
         <div style={{ display: "flex", alignItems: "center" }}>
           <span style={{ margin: "5px" }}>Rag</span>
           <label className="switch">
-            <input type="checkbox" onChange={toggleRag} />
+            <input type="checkbox" onChange={toggleRag} checked={withRag} />
             <span className="slider round"></span>
           </label>
         </div>
@@ -161,11 +176,12 @@ function ChatWindow() {
           )}
         </div>
       </div>
-
-      <Chat />
+{/* Main chat messages area */}
+<Chat />
 
       <div>
-        <DNA
+    {/* Loading animation while waiting for assistant response */}
+<DNA
           visible={loader}
           height={300}
           width={300}
@@ -175,7 +191,8 @@ function ChatWindow() {
       </div>
       <div className="chatInput">
         <div className="inputBox">
-          <div className="files">
+       {/* File upload and selection menu */}
+<div className="files">
             <i
               className="fa-regular fa-folder-open"
               onClick={() => {
@@ -184,7 +201,8 @@ function ChatWindow() {
             ></i>
             {fileBtn && <Filemenu></Filemenu>}
           </div>
-          <input
+   {/* User prompt input */}
+<input
             name="promt"
             type="text"
             value={prompt}

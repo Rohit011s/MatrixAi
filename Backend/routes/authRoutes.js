@@ -14,8 +14,16 @@ router.post("/signup", signup);
 
 router.post(
   "/signin",
-  passport.authenticate("local"),
-  signin
+  passport.authenticate("local", {
+    failWithError: true,
+  }),
+  signin,
+  (err, req, res, next) => {
+    res.status(401).json({
+      success: false,
+      message: "Invalid username or password",
+    });
+  }
 );
 
 router.get("/me", me);

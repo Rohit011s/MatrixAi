@@ -6,7 +6,9 @@ import {v1 as uuidv1} from "uuid"
 import { MyContext } from './context/MyContext'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
+import {Toaster} from 'react-hot-toast' 
 function App() {
+  const [files, setFiles] = useState(null);
   const [prompt, setPrompt] = useState("");
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [reply, setReply] = useState(null);
@@ -18,7 +20,7 @@ function App() {
    const [lastReply, setLastReply] = useState(null);
   const providerValues={
     prompt,setPrompt,
-    reply,setReply,
+    reply,setReply,files, setFiles,
     currThreadId,setCurrThreadId,
   lastReply, setLastReply,
     prevChats,setPrevChats,
@@ -30,7 +32,7 @@ function App() {
   
   return (
        <MyContext.Provider value={providerValues}>
-
+<Toaster></Toaster>
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/signin" element={<SignIn />} />

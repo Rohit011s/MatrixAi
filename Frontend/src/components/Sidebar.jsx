@@ -1,8 +1,10 @@
 import { useContext, useEffect } from "react";
-import "./Sidebar.css";
+import "../styles/components/Sidebar.css";
 import { MyContext } from "../context/MyContext";
 import { v1 as uuidv1 } from "uuid";
-
+import { getThreadMsg, getThreads } from "../../services/chatApi";
+import handleError from "../utils/handleError";
+import { deleteThread as deleteThreadApi } from "../../services/chatApi";
 function Sidebar() {
   const {
     allThreads,
@@ -14,9 +16,11 @@ function Sidebar() {
     setCurrThreadId,
     setLastReply,
     setNewChat,
-    setPrompt,user,setUser
+    setPrompt,
+    user,
+    setUser,
   } = useContext(MyContext);
-
+  // Create a new chat session
   const createNewChat = () => {
     setNewChat(true);
     setCurrThreadId(uuidv1());
@@ -24,70 +28,54 @@ function Sidebar() {
     setReply(null);
     setPrevChats([]);
   };
-
+  // Fetch all user threads for sidebar history
   const threads = async () => {
     try {
-      const response = await fetch("http://localhost:8080/api/thread",{credentials: "include"});
-     const data = await response.json();
-console.log(data);
-
-if (response.ok) {
-  setAllThreads(data);
-} else {
-  console.log(data);
-  setAllThreads([]);
-}
-    } catch (error) {
-      console.log(error);
+      const data = await getThreads();
+      setAllThreads(data);
+    } catch (err) {
+      setAllThreads([]);
+      handleError(err);
     }
   };
-
   // Load messages when user switches to another thread
   const changeThread = async (id) => {
     setCurrThreadId(id);
 
     try {
-      const response = await fetch(
-        `http://localhost:8080/api/thread/${id}`,{credentials: "include"}
-      );
-
-      const res = await response.json();
-
+      const res = await getThreadMsg(id);
       setReply(null);
-    setLastReply(null);
+      setLastReply(null);
       setNewChat(false);
       setPrevChats(res);
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      handleError(err);
     }
   };
 
-  // Prevent delete click from opening the thread
+  // Delete thread without opening it
   const deleteThread = async (id) => {
     try {
-      await fetch(`http://localhost:8080/api/thread/${id}`, {
-        method: "DELETE",
-        credentials: "include"
-      });
+      await deleteThreadApi(id);
 
-      setAllThreads(
-        allThreads.filter((thread) => thread.threadId !== id)
-      );
+      setAllThreads(allThreads.filter((thread) => thread.threadId !== id));
 
       if (currThreadId === id) {
         createNewChat();
       }
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      handleError(err);
     }
   };
-
+  // Refresh thread list when user logs in,
+  // changes thread, or sends a new message
   useEffect(() => {
-    if(!user)return;
-    
-      threads();
+    // Skip API call when user is not authenticated
+    if (!user) return;
+    if (!user) return;
 
-  }, [user,currThreadId,prevChats]);
+    threads();
+  }, [user, currThreadId, prevChats]);
 
   return (
     <section className="sidebar">
@@ -102,21 +90,22 @@ if (response.ok) {
         </span>
       </button>
 
+      {/* Chat history section */}
       <div className="historyTitle">
         <p>History</p>
       </div>
 
+      {/* List of user chat threads */}
       <ul className="history scrollbar">
         {allThreads?.map((thread, idx) => (
           <li
             key={idx}
-            className={
-              thread.threadId === currThreadId ? "highlight" : ""
-            }
+            //  Highlight currently selected thread
+            className={thread.threadId === currThreadId ? "highlight" : ""}
             onClick={() => changeThread(thread.threadId)}
           >
             {thread.title}
-
+            {/* Prevent delete click from opening the thread and detele thread*/}
             <span
               onClick={(e) => {
                 e.stopPropagation();

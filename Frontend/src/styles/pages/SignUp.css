@@ -102,3 +102,9 @@ input:-webkit-autofill:focus{
 .auth-link a:hover{
    color: rgb(61, 61, 255) !important;
 }
+.InputErrors{
+    margin: 5px 0;
+    padding: 5px;
+    color: red;
+        height: 18px;
+}
