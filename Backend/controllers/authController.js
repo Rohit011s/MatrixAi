@@ -1,5 +1,10 @@
-import User from "../models/User.js";
 
+import User from "../models/User.js";
+import Rag from "../models/RagDoc.js"
+import Document from "../models/Document.js"
+import Thread from "../models/Thread.js"
+import fs from "fs";
+import { log } from "console";
 export const signup = async (req, res, next) => {
   try {
     const { username, email, password } = req.body;
@@ -86,4 +91,60 @@ export const logout= (req, res, next) => {
       });
     });
   });
+}
+export const accountDlt=async(req,res)=>{  
+  const userId = req.user._id;
+
+// Get all user documents first
+const docs = await Document.find({
+  user_id: userId,
+});
+
+// Delete physical files
+for (const doc of docs) {
+  fs.unlink(doc.filePath, (err) => {
+    if (err) {
+      console.error(
+        "FILE DELETE ERROR:",
+        err.message
+      );
+    }
+  });
+}
+
+// Delete all RAG chunks
+await Rag.deleteMany({
+  user_id: userId,
+});
+
+// Delete all document metadata
+await Document.deleteMany({
+  user_id: userId,
+});
+
+// Delete all threads
+await Thread.deleteMany({
+  user_id: userId,
+});
+
+// Delete user
+await User.findByIdAndDelete(userId);
+//logout user
+req.logout((err) => {
+  if (err) {
+    return next(err);
+  }
+
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        message: "Account deleted but logout failed",
+      });
+    }
+    res.clearCookie("connect.sid");
+    res.status(200).json({
+      success: true,
+      message: "Account deleted successfully",
+    });})})
 }

@@ -6,6 +6,7 @@ import {
   signin,
   me,
   logout,
+  accountDlt,
 } from "../controllers/authController.js";
 
 const router = express.Router();
@@ -29,5 +30,5 @@ router.post(
 router.get("/me", me);
 
 router.post("/logout", logout);
-
+router.delete("/user",accountDlt);
 export default router;
