@@ -6,6 +6,7 @@ import { MyContext } from "../context/MyContext";
 import { signin } from "../../services/authApi";
 import toast from "react-hot-toast";
 import handleError from "../utils/handleError";
+import logo from "../assets/matrixAiLogo.png";
 function Signin() {
   const { setUser } = useContext(MyContext);
   const navigate = useNavigate();
@@ -73,7 +74,7 @@ function Signin() {
     <div className="container">
       <h3>
         Matrix AI
-        <img className="logo" src="src/assets/matrixAiLogo.png" alt="logo" />
+        <img className="logo" src={logo} alt="logo" />
       </h3>
 
       <p className="subtitle">Sign In</p>

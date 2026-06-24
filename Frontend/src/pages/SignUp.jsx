@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { MyContext } from "../context/MyContext";
 import { signup } from "../../services/authApi";
 import handleError from "../utils/handleError";
+import logo from "../assets/matrixAiLogo.png";
 function Signin() {
   const { setUser } = useContext(MyContext);
   const [loading, setLoading] = useState(false);
@@ -76,7 +77,7 @@ function Signin() {
       <h3>
         {" "}
         Mtrix Ai{" "}
-        <img className="logo" src="src/assets/matrixAiLogo.png" alt="logo" />
+        <img className="logo" src={logo} alt="logo" />
       </h3>
       <p className="subtitle">Sign Up</p>
       {/* sign up form  */}

@@ -5,6 +5,7 @@ import { v1 as uuidv1 } from "uuid";
 import { getThreadMsg, getThreads } from "../../services/chatApi";
 import handleError from "../utils/handleError";
 import { deleteThread as deleteThreadApi } from "../../services/chatApi";
+import logo from "../assets/matrixAiLogo.png";
 function Sidebar() {
   const {
     allThreads,
@@ -82,7 +83,7 @@ function Sidebar() {
       <button onClick={createNewChat}>
         <img
           className="logo"
-          src="src/assets/matrixAiLogo.png"
+          src={logo}
           alt="Matrix Logo"
         />
         <span>
@@ -118,7 +119,7 @@ function Sidebar() {
         ))}
       </ul>
 
-      <div className="sign">By Rohit</div>
+      <div className="sign">By Rohit Suthar</div>
     </section>
   );
 }
