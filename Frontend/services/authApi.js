@@ -21,3 +21,5 @@ export const logout = () =>
 // Get currently authenticated user
 export const getMe = () =>
   request("/api/me");
+export const deleteAc = () =>
+  request("/api/user",{method:"DELETE"});

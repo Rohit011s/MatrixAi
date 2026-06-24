@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import Filemenu from "./Filemenu.jsx";
 import toast from "react-hot-toast";
 import { sendMessage } from "../../services/chatApi.js";
-import { logout as logoutUser } from "../../services/authApi.js";
+import { deleteAc, logout as logoutUser } from "../../services/authApi.js";
 import handleError from "../utils/handleError.js";
 function ChatWindow() {
   const {
@@ -47,6 +47,17 @@ function ChatWindow() {
 
     setWithRag((prev) => !prev);
   };
+
+  const dltac=async()=>{
+    const res=await deleteAc();
+        
+      toast.success("account deleted successfuly");
+      setUser(null);
+      setAllThreads([]);
+      setPrevChats([]);
+      setReply(null);
+      window.location.reload();
+  }
 // Logout user and clear all client-side state
 const logout = async () => {
     try {
@@ -149,6 +160,9 @@ useEffect(() => {
                         <i className="fa-solid fa-right-from-bracket"></i>
                       </span>{" "}
                       &nbsp;&nbsp; log out
+                    </div>
+                    <div className="menu-li">
+                    <button className="dltbtn" onClick={dltac}>Dlt AC</button>
                     </div>
                   </>
                 ) : (
