@@ -9,7 +9,7 @@ import {
 } from "../../services/documentApi";
 import handleError from "../utils/handleError";
 function Filemenu() {
-  const { selectedFiles, setSelectedFiles, files, setFiles, setWithRag } =
+  const { selectedFiles, setSelectedFiles, files, setFiles, setWithRag ,user} =
     useContext(MyContext);
   const allowed = [".txt", ".pdf"];
   const [uploading, setUploading] = useState(false);
@@ -57,6 +57,7 @@ function Filemenu() {
   // Upload a new document for RAG
   const handleFileUpload = async (e) => {
     // Prevent multiple upload requests
+    if(!user){toast.error("sign in required!"); return;}
     if (uploading) return;
     if (!files) return;
     setUploading(true);
