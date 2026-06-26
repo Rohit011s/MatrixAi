@@ -23,10 +23,14 @@ function ChatWindow() {
     files,
     setUser,
     setAllThreads,
-    selectedFiles,showSidebar,setShowSidebar
+    selectedFiles,
+    showSidebar,
+    setShowSidebar,
+    fileBtn,
+    setFileBtn,
   } = useContext(MyContext);
   const [menu, setMenu] = useState(false);
-  const [fileBtn, setFileBtn] = useState(false);
+
   const [loader, setLoader] = useState(false);
   const [withRag, setWithRag] = useState(false);
   const navigate = useNavigate();
@@ -47,21 +51,21 @@ function ChatWindow() {
 
     setWithRag((prev) => !prev);
   };
-const toggleBar=()=>{
-  setShowSidebar(!showSidebar);
-}
-  const dltac=async()=>{
-    const res=await deleteAc();
-        
-      toast.success("account deleted successfuly");
-      setUser(null);
-      setAllThreads([]);
-      setPrevChats([]);
-      setReply(null);
-      window.location.reload();
-  }
-// Logout user and clear all client-side state
-const logout = async () => {
+  const toggleBar = () => {
+    setShowSidebar(!showSidebar);
+  };
+  const dltac = async () => {
+    const res = await deleteAc();
+
+    toast.success("account deleted successfuly");
+    setUser(null);
+    setAllThreads([]);
+    setPrevChats([]);
+    setReply(null);
+    window.location.reload();
+  };
+  // Logout user and clear all client-side state
+  const logout = async () => {
     try {
       await logoutUser();
       toast.success("Logout successfuly");
@@ -74,15 +78,15 @@ const logout = async () => {
       handleError(err);
     }
   };
-// Send user prompt to backend and receive assistant response
-const getReply = async () => {
-  setFileBtn(false);
-  setMenu(false);
-// Prevent duplicate requests while current request is processing
-if (loader) return;
+  // Send user prompt to backend and receive assistant response
+  const getReply = async () => {
+    setFileBtn(false);
+    setMenu(false);
+    // Prevent duplicate requests while current request is processing
+    if (loader) return;
     if (!prompt.trim()) return;
-  // RAG mode requires at least one selected file
-if (withRag && !selectedFiles.length) {
+    // RAG mode requires at least one selected file
+    if (withRag && !selectedFiles.length) {
       toast.error("select file");
       return;
     }
@@ -107,8 +111,8 @@ if (withRag && !selectedFiles.length) {
       setLoader(false);
     }
   };
-// Save latest user message and assistant response to chat history
-useEffect(() => {
+  // Save latest user message and assistant response to chat history
+  useEffect(() => {
     if (prompt && reply) {
       setPrevChats((prevChats) => [
         ...prevChats,
@@ -126,16 +130,21 @@ useEffect(() => {
     setPrompt("");
   }, [reply]);
   // Disable RAG automatically when all files are removed
-useEffect(() => {
-  if (!files?.length) {
-    setWithRag(false);
-  }
-}, [files]);
+  useEffect(() => {
+    if (!files?.length) {
+      setWithRag(false);
+    }
+  }, [files]);
   return (
     <div className="chatwindow">
       <div className="navbar">
         <span onClick={toggleBar}>
-        {showSidebar ?<i className="fa-solid fa-xmark"></i>:<i className="fa-solid fa-bars"></i>}  &nbsp; Matrix Ai 
+          {showSidebar ? (
+            <i className="fa-solid fa-xmark"></i>
+          ) : (
+            <i className="fa-solid fa-bars"></i>
+          )}{" "}
+          &nbsp; Matrix Ai
         </span>
         <div style={{ display: "flex", alignItems: "center" }}>
           <span style={{ margin: "5px" }}>Rag</span>
@@ -166,7 +175,9 @@ useEffect(() => {
                       &nbsp;&nbsp; log out
                     </div>
                     <div className="menu-li">
-                    <button className="dltbtn" onClick={dltac}>Dlt AC</button>
+                      <button className="dltbtn" onClick={dltac}>
+                        Dlt AC
+                      </button>
                     </div>
                   </>
                 ) : (
@@ -194,12 +205,12 @@ useEffect(() => {
           )}
         </div>
       </div>
-{/* Main chat messages area */}
-<Chat />
+      {/* Main chat messages area */}
+      <Chat />
 
       <div>
-    {/* Loading animation while waiting for assistant response */}
-<DNA
+        {/* Loading animation while waiting for assistant response */}
+        <DNA
           visible={loader}
           height={300}
           width={300}
@@ -209,22 +220,22 @@ useEffect(() => {
       </div>
       <div className="chatInput">
         <div className="inputBox">
-       {/* File upload and selection menu */}
-<div className="files">
+          {/* File upload and selection menu */}
+          <div className="files">
             <i
               className="fa-regular fa-folder-open"
-              onClick={() => {
+              onClick={(e) => {
                 setFileBtn(!fileBtn);
               }}
             ></i>
             {fileBtn && <Filemenu></Filemenu>}
           </div>
-   {/* User prompt input */}
-<input
+          {/* User prompt input */}
+          <input
             name="promt"
             type="text"
             value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
+            onChange={(e) =>{e.stopPropagation(); setPrompt(e.target.value)}}
             onKeyDown={(e) => {
               if (e.key === "Enter") getReply();
             }}

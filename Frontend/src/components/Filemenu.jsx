@@ -9,7 +9,7 @@ import {
 } from "../../services/documentApi";
 import handleError from "../utils/handleError";
 function Filemenu() {
-  const { selectedFiles, setSelectedFiles, files, setFiles, setWithRag ,user} =
+  const { selectedFiles, setSelectedFiles, files, setFiles, setWithRag ,user,setFileBtn} =
     useContext(MyContext);
   const allowed = [".txt", ".pdf"];
   const [uploading, setUploading] = useState(false);
@@ -52,12 +52,13 @@ function Filemenu() {
   // Load documents when component mounts
 
   useEffect(() => {
+    if(!user){return;}
     getFiles();
   }, []);
   // Upload a new document for RAG
   const handleFileUpload = async (e) => {
     // Prevent multiple upload requests
-   
+  if(!user){setUploading(false);}
     if (uploading) return;
     if (!files) return;
     setUploading(true);
@@ -130,6 +131,11 @@ function Filemenu() {
           htmlFor="file-upload"
           onClick={(e) => {
             e.stopPropagation();
+            if(!user){
+              e.preventDefault();
+              setFileBtn(false);
+              toast.error("Sign in please ...");
+             return;}
           }}
         >
           <i className="fa-solid fa-paperclip"></i>&nbsp;&nbsp;
@@ -142,9 +148,7 @@ function Filemenu() {
             hidden
             onChange={(e) => {
               e.stopPropagation();
-if(!user){toast.error("sign in required!"); return;}else{
   handleFileUpload(e);
-}
             }}
           />
         </label>
