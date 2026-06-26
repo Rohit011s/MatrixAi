@@ -57,7 +57,7 @@ function Filemenu() {
   // Upload a new document for RAG
   const handleFileUpload = async (e) => {
     // Prevent multiple upload requests
-    if(!user){toast.error("sign in required!"); return;}
+   
     if (uploading) return;
     if (!files) return;
     setUploading(true);
@@ -142,8 +142,9 @@ function Filemenu() {
             hidden
             onChange={(e) => {
               e.stopPropagation();
-
-              handleFileUpload(e);
+if(!user){toast.error("sign in required!"); return;}else{
+  handleFileUpload(e);
+}
             }}
           />
         </label>
