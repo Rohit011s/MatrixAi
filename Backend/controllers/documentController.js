@@ -22,6 +22,7 @@ export const uploadDocument=async (req, res) => {
       // Generate chunks and embeddings
       await saveDoc(
         req.file.path,
+        req.file.originalname,
         doc._id,
         req.user._id
       );

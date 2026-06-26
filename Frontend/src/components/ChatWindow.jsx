@@ -23,7 +23,7 @@ function ChatWindow() {
     files,
     setUser,
     setAllThreads,
-    selectedFiles,
+    selectedFiles,showSidebar,setShowSidebar
   } = useContext(MyContext);
   const [menu, setMenu] = useState(false);
   const [fileBtn, setFileBtn] = useState(false);
@@ -47,7 +47,9 @@ function ChatWindow() {
 
     setWithRag((prev) => !prev);
   };
-
+const toggleBar=()=>{
+  setShowSidebar(!showSidebar);
+}
   const dltac=async()=>{
     const res=await deleteAc();
         
@@ -74,6 +76,8 @@ const logout = async () => {
   };
 // Send user prompt to backend and receive assistant response
 const getReply = async () => {
+  setFileBtn(false);
+  setMenu(false);
 // Prevent duplicate requests while current request is processing
 if (loader) return;
     if (!prompt.trim()) return;
@@ -130,8 +134,8 @@ useEffect(() => {
   return (
     <div className="chatwindow">
       <div className="navbar">
-        <span>
-          Matrix Ai <i className="fa-solid fa-sort-down"></i>
+        <span onClick={toggleBar}>
+        {showSidebar ?<i className="fa-solid fa-xmark"></i>:<i className="fa-solid fa-bars"></i>}  &nbsp; Matrix Ai 
         </span>
         <div style={{ display: "flex", alignItems: "center" }}>
           <span style={{ margin: "5px" }}>Rag</span>

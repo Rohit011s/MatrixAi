@@ -1,9 +1,9 @@
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import fs from "fs/promises";
 import path from "path";
-
 import getEmbedding from "./getEmbedding.js";
 import Rag from "../models/RagDoc.js";
+import extractText from "./extractText.js";
 
 /*
   Clean text before chunking.
@@ -30,16 +30,15 @@ function cleanText(text) {
 
   Overlap helps preserve context between chunks.
 */
-async function createChunks(filePath) {
+async function createChunks(filePath,originalName) {
   const splitter = new RecursiveCharacterTextSplitter({
     chunkSize: 1000,
     chunkOverlap: 200,
   });
 
-  const text = cleanText(
-    await fs.readFile(filePath, "utf8")
-  );
-
+ const text = cleanText(
+  await extractText(filePath,originalName)
+);
   if (!text) {
     throw new Error("File is empty.");
   }
@@ -66,9 +65,9 @@ async function createChunks(filePath) {
     ↓
   MongoDB Storage
 */
-async function saveDoc(filePath, documentId, userId) {
+async function saveDoc(filePath,originalName, documentId, userId) {
   try {
-    const chunks = await createChunks(filePath);
+    const chunks = await createChunks(filePath,originalName);
 
     if (chunks.length === 0) {
       throw new Error(

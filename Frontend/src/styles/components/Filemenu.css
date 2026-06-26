@@ -9,7 +9,7 @@
     position: absolute;
     bottom: 50px; /* popup above icon */
     left: 0;
-    width: 220px;
+width:min(220px,90vw);
     background: #1e1e1e;
     border: 1px solid #333;
     border-radius: 10px;
@@ -29,6 +29,7 @@ font-size: 0.8rem;
     margin: 0;
     padding: 0;
 }
+.file-name
 .file-name span i:hover{
     color: darkorchid;
 }
@@ -48,4 +49,11 @@ border-radius: 12px;
 .upload-btn:hover{
  background: #333;
 box-shadow: inset 0 0 0 1px cyan; 
+}
+@media(max-width:768px){
+
+.file-menu{
+right:0;
+}
+
 }

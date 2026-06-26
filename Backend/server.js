@@ -30,6 +30,7 @@ const store = MongoStore.create({
 /*
   Session Configuration
 */
+const isProduction = process.env.NODE_ENV === "production";
 const sessionOptions = {
   store,
   secret: process.env.SESSION_SECRET,
@@ -38,10 +39,17 @@ const sessionOptions = {
   cookie: {
     maxAge: 1000 * 60 * 60 * 24 * 7,
     httpOnly: true,
-    secure: true,
-    sameSite: "none",
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax",
   },
 };
+
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
+  })
+);
 /*
   Middleware
 */
@@ -78,7 +86,17 @@ app.use("/api", documentRoutes);
 app.get("/", (req, res) => {
   res.send("hello world");
 });
+app.get("/test-session", (req, res) => {
+  console.log("Session:", req.session);
+  console.log("Passport:", req.session?.passport);
+  console.log("User:", req.user);
 
+  res.json({
+    session: req.session,
+    passport: req.session?.passport,
+    user: req.user,
+  });
+});
 /*
   Start Server
 */

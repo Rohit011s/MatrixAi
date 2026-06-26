@@ -105,7 +105,12 @@ function Sidebar() {
             className={thread.threadId === currThreadId ? "highlight" : ""}
             onClick={() => changeThread(thread.threadId)}
           >
-            {thread.title}
+           <span style={ {display: "inline-block",maxWidth: "200px",
+                overflow: "hidden",
+                 textOverflow: "ellipsis",
+                whiteSpace: "nowrap"}}>
+             {thread.title}
+            </span>
             {/* Prevent delete click from opening the thread and detele thread*/}
             <span
               onClick={(e) => {

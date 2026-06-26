@@ -74,9 +74,9 @@ function Signin() {
   };
   return (
     <div className="container">
-      <h3>
+      <h3 onClick={()=>{navigate("/")}}>
         {" "}
-        Mtrix Ai{" "}
+        Matrix Ai{" "}
         <img className="logo" src={logo} alt="logo" />
       </h3>
       <p className="subtitle">Sign Up</p>

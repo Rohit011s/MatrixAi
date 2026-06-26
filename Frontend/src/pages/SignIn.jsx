@@ -72,7 +72,7 @@ function Signin() {
 
   return (
     <div className="container">
-      <h3>
+      <h3 onClick={()=>{navigate("/")}}>
         Matrix AI
         <img className="logo" src={logo} alt="logo" />
       </h3>

@@ -11,6 +11,7 @@ import handleError from "../utils/handleError";
 function Filemenu() {
   const { selectedFiles, setSelectedFiles, files, setFiles, setWithRag } =
     useContext(MyContext);
+  const allowed = [".txt", ".pdf"];
   const [uploading, setUploading] = useState(false);
   // Add or remove file from selected RAG files
   const fileSelctor = (e, id) => {
@@ -62,17 +63,27 @@ function Filemenu() {
     try {
       // Prepare form data for file upload
       const file = e.target.files[0];
+      if (!file) {
+        setUploading(false);
+        return;
+      }
+      const ext = file.name.substring(file.name.lastIndexOf(".")).toLowerCase();
+      if (!allowed.includes(ext)) {
+        toast.error("Only TXT and PDF files are allowed.");
+        setUploading(false);
+        return;
+      }
       const formData = new FormData();
       formData.append("document", file);
       // Send selected file to backend
       const res = await uploadDocument(formData);
       toast.success("file uploaded");
       // Refresh document list after upload
-      getFiles();
-      getFiles();
+      await getFiles();
     } catch (err) {
       handleError(err);
     } finally {
+      e.target.value = "";
       setUploading(false);
     }
   };
@@ -91,7 +102,17 @@ function Filemenu() {
                 fileSelctor(e, file._id);
               }}
             />{" "}
-            <span>{file.fileName}</span>
+            <span
+              style={{
+                display: "inline-block",
+                maxWidth: "130px",
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+                textOverflow: "ellipsis",
+              }}
+            >
+              {file.fileName}
+            </span>
             {/* Delete document */}
             <span
               onClick={(e) => {
@@ -116,6 +137,7 @@ function Filemenu() {
           <input
             id="file-upload"
             type="file"
+            accept=".txt,.pdf"
             hidden
             onChange={(e) => {
               e.stopPropagation();

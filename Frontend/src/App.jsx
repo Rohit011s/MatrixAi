@@ -9,6 +9,7 @@ import { useState } from 'react'
 import {Toaster} from 'react-hot-toast' 
 function App() {
   const [files, setFiles] = useState(null);
+   const [showSidebar,setShowSidebar]=useState(false);
   const [prompt, setPrompt] = useState("");
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [reply, setReply] = useState(null);
@@ -27,7 +28,7 @@ function App() {
     newChat,setNewChat,
     allThreads,setAllThreads,
     user,setUser,
-    selectedFiles, setSelectedFiles
+    selectedFiles, setSelectedFiles,showSidebar,setShowSidebar
   };
   
   return (

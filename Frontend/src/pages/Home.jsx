@@ -8,7 +8,7 @@ import { getMe } from "../../services/authApi";
 import handleError from "../utils/handleError";
 
 function Home() {
-  const { setUser } = useContext(MyContext);
+  const { setUser ,showSidebar,setShowSidebar} = useContext(MyContext);
   // Load authenticated user when application starts
   useEffect(() => {
     // Fetch current logged-in user
@@ -35,7 +35,7 @@ function Home() {
   }, []);
   return (
     <div className="Home">
-      <Sidebar />
+ {showSidebar && <Sidebar />}
       <ChatWindow />
     </div>
   );

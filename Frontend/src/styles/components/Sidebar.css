@@ -2,7 +2,8 @@
     background-color: #171717;
     color: #b4b4b4;
     height:100vh;
-    min-width:320px;
+    width:280px;
+min-width:280px;
     display: flex;
     flex-direction: column;
     justify-content:space-between;
@@ -105,3 +106,18 @@ overflow-y: auto;
             border-radius: 8px;
             background-color: #363636;
         }
+        @media(max-width:768px){
+
+.sidebar{
+
+position:absolute;
+left:0;
+top:0;
+z-index:1000;
+
+height:100dvh;
+width:260px;
+
+}
+
+}

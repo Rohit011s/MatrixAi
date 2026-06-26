@@ -13,6 +13,14 @@ body{
 }
 .Home{
   background-color: #212121;
-  display: flex;
-  overflow: hidden;
-} 
+display:flex;
+height:100dvh;
+overflow:hidden;
+}
+@media(max-width:768px){
+
+.Home{
+flex-direction:column;
+}
+
+}
